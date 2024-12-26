@@ -1,5 +1,5 @@
 # Hugo configuration file
-title: My Site
+title: Metaphor
 
 # import hextra as module
 module:
@@ -18,14 +18,14 @@ markup:
 
 menu:
   main:
-    - name: Docs
+    - name: Guide
       pageRef: /docs
       weight: 1
     - name: About
       pageRef: /about
       weight: 2
     - name: Contact ↗
-      url: "https://github.com/imfing"
+      url: "https://github.com/rsteckler"
       weight: 3
     - name: Search
       weight: 4
@@ -33,14 +33,9 @@ menu:
         type: search
     - name: GitHub
       weight: 5
-      url: "https://github.com/imfing/hextra-starter-template"
+      url: "https://github.com/rsteckler/metaphor"
       params:
         icon: github
-    - name: Twitter
-      weight: 6
-      url: "https://twitter.com/"
-      params:
-        icon: x-twitter
 
 params:
   navbar:
@@ -49,8 +44,8 @@ params:
 
   footer:
     displayCopyright: false
-    displayPoweredBy: true
+    displayPoweredBy: false
 
   editURL:
     enable: true
-    base: "https://github.com/imfing/hextra-starter-template/edit/main/content"
+    base: "https://github.com/rsteckler/metaphor/edit/main/content"

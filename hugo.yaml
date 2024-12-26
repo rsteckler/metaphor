@@ -53,12 +53,11 @@ params:
   comments:
     enable: true
     type: giscus
-
-  giscus:
-    repo: "rsteckler/metaphor"
-    repoId: "R_kgDONimouw"
-    category: "Comments"
-    categoryId: "DIC_kwDONimou84CliV2"
+    giscus:
+      repo: "rsteckler/metaphor"
+      repoId: "R_kgDONimouw"
+      category: "Comments"
+      categoryId: "DIC_kwDONimou84CliV2"
 
 services:
   googleAnalytics:

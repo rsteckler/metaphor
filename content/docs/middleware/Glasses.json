@@ -1,0 +1,296 @@
+{
+  "name": "Glasses",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "5f3136aa-6745-440a-af08-4d2e9ce68b6a",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        20
+      ],
+      "id": "670a7b49-ccd4-49ec-807f-97cab9a392d0",
+      "name": "Webhook",
+      "webhookId": "5f3136aa-6745-440a-af08-4d2e9ce68b6a"
+    },
+    {
+      "parameters": {
+        "resource": "service",
+        "operation": "call",
+        "domain": "script",
+        "service": "glasses_command",
+        "serviceAttributes": {
+          "attributes": [
+            {
+              "name": "text",
+              "value": "={{ $json.body.data.chat.lastMessage._data.body }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.homeAssistant",
+      "typeVersion": 1,
+      "position": [
+        440,
+        -200
+      ],
+      "id": "3046defd-a216-4b74-910a-f3cdcb35d602",
+      "name": "Home Assistant",
+      "credentials": {
+        "homeAssistantApi": {
+          "id": "wQfiGkyUHtu7waxz",
+          "name": "Home Assistant account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $json.body.data.chat.lastMessage._data.body }}  Keep your response succinct and two or three sentences at most."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.7,
+      "position": [
+        440,
+        20
+      ],
+      "id": "272927f1-f615-4ad8-b6ac-5c57fde8192a",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "rl6qpfZU09CUgZyF",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://waapi.home/client/sendMessage/ELFUERTE",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chatId",
+              "value": "120363380887932355@g.us"
+            },
+            {
+              "name": "contentType",
+              "value": "string"
+            },
+            {
+              "name": "content",
+              "value": "={{ $json.message.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        20
+      ],
+      "id": "9a7bee63-c458-45b8-9247-fbe0b45effc2",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "resource": "block",
+        "blockId": {
+          "__rl": true,
+          "value": "https://www.notion.so/This-is-a-test-from-the-Meta-Glasses-1681592270888049b375e43531b9f468?pvs=4#168159227088801985caec6f61804f17",
+          "mode": "url"
+        },
+        "blockUi": {
+          "blockValues": [
+            {
+              "type": "to_do",
+              "textContent": "={{ $json.body.data.chat.lastMessage._data.body }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        240
+      ],
+      "id": "0974b921-557c-4b4d-b91d-5624cec54b1b",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "P5AiaGNbxbZjxO2D",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.data.chat.name }}",
+                    "rightValue": "Home",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a9a1652b-7127-4030-a1a3-7b36f172ec90",
+                    "leftValue": "={{ $json.body.data.chat.name }}",
+                    "rightValue": "ChatGPT",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "226f63b9-7d1a-4356-a4fe-731d40f69022",
+                    "leftValue": "={{ $json.body.data.chat.name }}",
+                    "rightValue": "Notion",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        160,
+        20
+      ],
+      "id": "609809af-5f43-4a52-a512-2227f2fca613",
+      "name": "Switch"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Home Assistant": {
+      "main": [
+        []
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Home Assistant",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0cae1c5f-7c6b-483a-bb29-3438cd82b11c",
+  "meta": {
+    "instanceId": "f355f2d38944d9729de280c67ba67f5677ba8fb5ef48e5596832aaad94f6184f"
+  },
+  "id": "zBW1menazMdUPkJL",
+  "tags": []
+}
